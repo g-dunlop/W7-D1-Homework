@@ -4,15 +4,18 @@ import React, {useState} from 'react'
 function App() {
 
   const [todos, setTodos] = useState([
-    "Buy shopping", "Clean bathroom", "Car's MOT"
+    { name: "Buy shopping", priority: "high" },
+    { name: "Clean bathroom", priority: "low" },
+    { name: "Car's MOT", priority: "high" }
   ])
 
   const [newTodo, setNewTodo] = useState("")
 
   const todoNodes = todos.map((todo, index) => {
     return(
-      <li key={index} className="">
-        <span>{todo}</span>
+      <li key={index} className={todo.priority === "high" ? "high" : "low"}>
+        <span>{todo.name}</span>
+        {todo.priority === "high" ? <span className="high">High Priority</span> : <span className="low">Low Priority</span>}
       </li>
     )
   })
