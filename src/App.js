@@ -9,44 +9,51 @@ function App() {
     { name: "Car's MOT", priority: "high" }
   ])
 
-  const [newTodo, setNewTodo] = useState("")
-  const [newPriority, setNewPriority] = useState("")
+  const [newTodo, setNewTodo] = useState('');
+  const [newPriority, setNewPriority] = useState('');
+
+  // const changePriority = (event) => {
+    
+  //   if (event.target.value === "high"){
+  //     // console.log(todos[index].name);
+  //     setTodos(event.target.value);
+  //   }
+  //   //   setTodos(todos[index].priority = "low");
+  //    else {
+  //     setTodos(event.target.value);}
+  //     // console.log(todos[index].name)}
+  //   //   setTodos(todos[index].priority = "high");
+  //   // } 
+  // }
+
+  const handleTodoInput = (event) => {
+    setNewTodo(event.target.value);
+  }
+
+  const handleRadioButton = (event) => {
+    setNewPriority(event.target.value);
+  }
+
+  const saveNewTodo = (event) => {
+    event.preventDefault();
+    const copyTodos = [...todos];
+    copyTodos.push({name: newTodo, priority: newPriority});
+    setTodos(copyTodos);
+    setNewTodo('');
+    setNewPriority('');
+  }
 
   const todoNodes = todos.map((todo, index) => {
     return(
       <li key={index} className={todo.priority === "high" ? "high" : "low"}>
-        <span>{todo.name}</span>
-        {todo.priority === "high" ? 
-      
-        <span className="high">High Priority</span> : <span className="low">Low Priority</span>}
+        <span>{todo.name}</span> <button value={todo.priority}  id="change-priority">Change Priority</button>
       </li>
     )
   })
 
-  const handleTodoInput = (event) => {
-    setNewTodo(event.target.value)
-  }
-
-  const handleRadioButton = (event) => {
-    setNewPriority(event.target.value)
-  }
-
-  // const changePriority = (index) => {
-  //   const copyTodos = [...todos]
-  //   copyTodos[index].priority = handleRadioButton();
-  //   setTodos(copyTodos)
-  // }
-
-  const saveNewTodo = (event) => {
-    event.preventDefault();
-    const copyTodos = [...todos]
-    copyTodos.push({name: newTodo, priority: newPriority})
-    setTodos(copyTodos)
-    setNewTodo("")
-  }
-
   return (
-    <>
+    <div className="App">
+
       <h1>To Do List</h1>
       <hr></hr>
 
@@ -56,18 +63,18 @@ function App() {
 
       <form onSubmit={saveNewTodo}>
         <label htmlFor="new-todo">Add New Task: </label>
-        <input id="new-todo" type="text" onChange={handleTodoInput}></input>
-        <div onChange={handleRadioButton}>
-          <label htmlFor="High Priority">High Priority</label>
-          <input type="radio" id="high" name="priority" value="high"></input>
-          <label htmlFor="Low Priority">Low Priority</label>
-          <input type="radio" id="low" name="priority" value="low"></input>
+        <input id="new-todo" type="text" value={newTodo} onChange={handleTodoInput} />
+        <div >
+          <label htmlFor="new-priority">High Priority</label>
+          <input type="radio" id="high" name="priority" onClick={handleRadioButton}  value="high"   />
+          <label htmlFor="new-priority">Low Priority</label>
+          <input type="radio" id="low" name="priority" onClick={handleRadioButton}  value="low"/>
         </div>
 
-        <input type="submit" value="Save New Task"></input>
+        <input type="submit" value="Save New Task" />
       </form>
-    </>
+    </div>
   );
-}
 
+}
 export default App;
